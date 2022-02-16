@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      scrollBehavior: MyCustomScrollBehavior(),
+      // scrollBehavior: MyCustomScrollBehavior(),
       theme: ThemeData(
         textTheme: GoogleFonts.nunitoTextTheme(
           Theme.of(context).textTheme,

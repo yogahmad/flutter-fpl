@@ -10,4 +10,6 @@ class ThemeColors {
   static Color defenderGreen = const Color(0xFF06FA87);
   static Color midfielderBlue = const Color(0xFF05F0FF);
   static Color forwardRed = const Color(0xFFE92552);
+  static Color lightOrange = const Color(0xFFFEF4F5);
+  static Color red = const Color(0xFFEC485C);
 }

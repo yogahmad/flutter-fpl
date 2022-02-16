@@ -27,9 +27,9 @@ class _DashboardState extends State<Dashboard> {
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             columnWidths: const {
               0: FixedColumnWidth(150.0),
-              2: FixedColumnWidth(120.0),
-              3: FixedColumnWidth(225.0),
-              4: FixedColumnWidth(225.0),
+              2: FixedColumnWidth(80.0),
+              3: FixedColumnWidth(160.0),
+              4: FixedColumnWidth(150.0),
               5: FixedColumnWidth(300.0),
             },
             children: [

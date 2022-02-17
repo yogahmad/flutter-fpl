@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fpl/components/select_player_dialog.dart';
 import 'package:fpl/configs/colors.dart';
 import 'package:fpl/configs/positions.dart';
 
@@ -23,219 +24,173 @@ class _DashboardState extends State<Dashboard> {
             ),
           ),
           const SizedBox(height: 35.0),
-          _generateTable(
-            children: const [
-              TableRow(
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.0),
+              color: ThemeColors.white,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Team"),
-                  Text("Player Name"),
-                  Text("Price"),
-                  Text("Fixtures"),
-                  Text("Predicted Points"),
-                  Text("Actions"),
+                  Container(
+                    width: 160,
+                    height: 32.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: _getColorFromPosisiton(Positions.gk),
+                    ),
+                    child: Center(
+                      child: Text(
+                        Positions.gk,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  _generateTable(
+                    children: [
+                      const TableRow(
+                        children: [
+                          Text("Team"),
+                          Text("Player Name"),
+                          Text("Price"),
+                          Text("Fixtures"),
+                          Text("Predicted Points"),
+                          Text("Actions"),
+                        ],
+                      ),
+                      _generateSpacing(18.0, 6),
+                      _TableItem(
+                        context: context,
+                        teamName: "Arsenal",
+                        fixtures: "BRE(H) + WOL(H)",
+                        playerName: "Ramsdale",
+                        position: Positions.gk,
+                        predictedPoints: 10.2,
+                        price: 5.1,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 18.0),
+                  _addPlayerButton(context, Positions.def),
                 ],
               ),
-            ],
+            ),
           ),
-          const SizedBox(height: 18.0),
-          _generateHeader(Positions.gk),
-          _generateTable(
-            children: <TableRow>[
-              _TableItem(
-                context: context,
-                teamName: "Arsenal",
-                fixtures: "BRE(H) + WOL(H)",
-                playerName: "Ramsdale",
-                position: Positions.gk,
-                predictedPoints: 10.2,
-                price: 5.1,
+          const SizedBox(height: 30.0),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.0),
+              color: ThemeColors.white,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 160,
+                    height: 32.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: _getColorFromPosisiton(Positions.def),
+                    ),
+                    child: Center(
+                      child: Text(
+                        Positions.def,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  _generateTable(
+                    children: [
+                      const TableRow(
+                        children: [
+                          Text("Team"),
+                          Text("Player Name"),
+                          Text("Price"),
+                          Text("Fixtures"),
+                          Text("Predicted Points"),
+                          Text("Actions"),
+                        ],
+                      ),
+                      _generateSpacing(18.0, 6),
+                      _TableItem(
+                        context: context,
+                        teamName: "Liverpool",
+                        fixtures: "NOR(H) + LEE(H)",
+                        playerName: "Alexander-Arnold",
+                        position: Positions.def,
+                        predictedPoints: 12.2,
+                        price: 8.5,
+                      ),
+                      _generateSpacing(10.0, 6),
+                      _TableItem(
+                        context: context,
+                        teamName: "Liverpool",
+                        fixtures: "NOR(H) + LEE(H)",
+                        playerName: "Robertson",
+                        position: Positions.def,
+                        predictedPoints: 10.8,
+                        price: 7.1,
+                      ),
+                      _generateSpacing(10.0, 6),
+                      _TableItem(
+                        context: context,
+                        teamName: "Arsenal",
+                        fixtures: "BRE(H) + WOL(H)",
+                        playerName: "Tierney",
+                        position: Positions.def,
+                        predictedPoints: 9.6,
+                        price: 5.1,
+                      ),
+                      _generateSpacing(10.0, 6),
+                      _TableItem(
+                        context: context,
+                        teamName: "Brighton",
+                        fixtures: "BUR (H)",
+                        playerName: "Cucurella",
+                        position: Positions.def,
+                        predictedPoints: 3.6,
+                        price: 5.1,
+                      ),
+                      _generateSpacing(10.0, 6),
+                      _TableItem(
+                        context: context,
+                        teamName: "Man City",
+                        fixtures: "TOT(H)",
+                        playerName: "Cancelo",
+                        position: Positions.def,
+                        predictedPoints: 5.2,
+                        price: 7.5,
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-          const SizedBox(height: 10.0),
-          _addPlayerButton(context),
-          const SizedBox(height: 10.0),
-          _generateHeader(Positions.def),
-          _generateTable(
-            children: [
-              _TableItem(
-                context: context,
-                teamName: "Liverpool",
-                fixtures: "NOR(H) + LEE(H)",
-                playerName: "Alexander-Arnold",
-                position: Positions.def,
-                predictedPoints: 12.2,
-                price: 8.5,
-              ),
-              _generateSpacing(10.0, 6),
-              _TableItem(
-                context: context,
-                teamName: "Liverpool",
-                fixtures: "NOR(H) + LEE(H)",
-                playerName: "Robertson",
-                position: Positions.def,
-                predictedPoints: 10.8,
-                price: 7.1,
-              ),
-              _generateSpacing(10.0, 6),
-              _TableItem(
-                context: context,
-                teamName: "Arsenal",
-                fixtures: "BRE(H) + WOL(H)",
-                playerName: "Tierney",
-                position: Positions.def,
-                predictedPoints: 9.6,
-                price: 5.1,
-              ),
-              _generateSpacing(10.0, 6),
-              _TableItem(
-                context: context,
-                teamName: "Brighton",
-                fixtures: "BUR (H)",
-                playerName: "Cucurella",
-                position: Positions.def,
-                predictedPoints: 3.6,
-                price: 5.1,
-              ),
-              _generateSpacing(10.0, 6),
-              _TableItem(
-                context: context,
-                teamName: "Man City",
-                fixtures: "TOT(H)",
-                playerName: "Cancelo",
-                position: Positions.def,
-                predictedPoints: 5.2,
-                price: 7.5,
-              ),
-            ],
-          ),
-          const SizedBox(height: 10.0),
-          _addPlayerButton(context),
-          const SizedBox(height: 10.0),
-          _generateHeader(Positions.mid),
-          _generateTable(
-            children: [
-              _TableItem(
-                context: context,
-                teamName: "West Ham",
-                fixtures: "NEW(H)",
-                playerName: "Bowen",
-                position: Positions.mid,
-                predictedPoints: 8.2,
-                price: 7.1,
-              ),
-              _generateSpacing(10.0, 6),
-              _TableItem(
-                context: context,
-                teamName: "West Ham",
-                fixtures: "NEW(H)",
-                playerName: "Bowen",
-                position: Positions.mid,
-                predictedPoints: 8.2,
-                price: 7.0,
-              ),
-              _generateSpacing(10.0, 6),
-              _TableItem(
-                context: context,
-                teamName: "West Ham",
-                fixtures: "NEW(H)",
-                playerName: "Bowen",
-                position: Positions.mid,
-                predictedPoints: 8.2,
-                price: 7.0,
-              ),
-              _generateSpacing(10.0, 6),
-              _TableItem(
-                context: context,
-                teamName: "West Ham",
-                fixtures: "NEW(H)",
-                playerName: "Bowen",
-                position: Positions.mid,
-                predictedPoints: 8.2,
-                price: 7.0,
-              ),
-            ],
-          ),
-          const SizedBox(height: 10.0),
-          _addPlayerButton(context),
-          const SizedBox(height: 10.0),
-          _generateHeader(Positions.fwd),
-          _generateTable(
-            children: [
-              _TableItem(
-                context: context,
-                teamName: "Everton",
-                fixtures: "SOU(A)",
-                playerName: "Calvert-Lewin",
-                position: Positions.fwd,
-                predictedPoints: 4.2,
-                price: 7.9,
-              ),
-              _generateSpacing(10.0, 6),
-              _TableItem(
-                context: context,
-                teamName: "Everton",
-                fixtures: "SOU(A)",
-                playerName: "Calvert-Lewin",
-                position: Positions.fwd,
-                predictedPoints: 4.2,
-                price: 7.9,
-              ),
-            ],
-          ),
-          const SizedBox(height: 10.0),
-          _addPlayerButton(context),
         ],
       ),
     );
   }
 }
 
-Widget _addPlayerButton(context) {
+Widget _addPlayerButton(context, position) {
   return Center(
     child: InkWell(
       onTap: () {
         showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Select a Player",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(20.0),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      width: 40.0,
-                      height: 40.0,
-                      decoration: BoxDecoration(
-                        color: ThemeColors.lightOrange,
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: Center(
-                        child: Icon(
-                          Icons.close,
-                          color: ThemeColors.red,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              content: const SizedBox(
-                width: 1200.0,
-                height: 600.0,
-              ),
-            );
+            return SelectPlayerDialog(context: context, position: position);
           },
         );
       },
@@ -339,44 +294,8 @@ class _TableItem extends TableRow {
                   showDialog(
                     context: context,
                     builder: (context) {
-                      return AlertDialog(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              "Select a Player",
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            InkWell(
-                              borderRadius: BorderRadius.circular(20.0),
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                width: 40.0,
-                                height: 40.0,
-                                decoration: BoxDecoration(
-                                  color: ThemeColors.lightOrange,
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.close,
-                                    color: ThemeColors.red,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        content: const SizedBox(
-                          width: 1200.0,
-                          height: 600.0,
-                        ),
-                      );
+                      return SelectPlayerDialog(
+                          context: context, position: position);
                     },
                   );
                 },

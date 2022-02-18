@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fpl/pages/analytics.dart';
+import 'package:fpl/pages/comparisons.dart';
 import 'package:fpl/pages/dashboard.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -39,6 +41,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String activePage = SidebarItemList.comparison;
+
+  void changeActivePage(String newPage) {
+    setState(() {
+      activePage = newPage;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,12 +57,21 @@ class _HomePageState extends State<HomePage> {
         height: double.infinity,
         width: double.infinity,
         child: Row(
-          children: const [
-            Sidebar(),
+          children: [
+            Sidebar(
+              activePage: activePage,
+              changeActivePage: changeActivePage,
+            ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(30.0),
-                child: Dashboard(),
+                padding: const EdgeInsets.all(30.0),
+                child: activePage == SidebarItemList.dashboard
+                    ? const Dashboard()
+                    : activePage == SidebarItemList.analytics
+                        ? AnalyticsPage()
+                        : activePage == SidebarItemList.comparison
+                            ? ComparisonPage()
+                            : Container(),
               ),
             ),
           ],

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fpl/configs/colors.dart';
 
-class _SidebarItemList {
+class SidebarItemList {
   static String dashboard = "Dashboard";
+  static String comparison = "Comparison";
   static String analytics = "Analytics";
   static String settings = "Settings";
 }
@@ -10,20 +11,32 @@ class _SidebarItemList {
 class Sidebar extends StatefulWidget {
   const Sidebar({
     Key? key,
+    required this.changeActivePage,
+    required this.activePage,
   }) : super(key: key);
+
+  final Function changeActivePage;
+  final String activePage;
 
   @override
   State<Sidebar> createState() => _SidebarState();
 }
 
 class _SidebarState extends State<Sidebar> {
-  String activeItem = _SidebarItemList.dashboard;
+  late String activeItem;
 
   void changeActiveItem(newActiveItem) {
     if (activeItem == newActiveItem) return;
     setState(() {
       activeItem = newActiveItem;
     });
+    widget.changeActivePage(newActiveItem);
+  }
+
+  @override
+  void initState() {
+    activeItem = widget.activePage;
+    super.initState();
   }
 
   @override
@@ -50,21 +63,28 @@ class _SidebarState extends State<Sidebar> {
           const SizedBox(height: 35.0),
           _SidebarItem(
             icon: Icons.dashboard,
-            itemName: _SidebarItemList.dashboard,
+            itemName: SidebarItemList.dashboard,
+            changeActiveItem: changeActiveItem,
+            activeItem: activeItem,
+          ),
+          const SizedBox(height: 20.0),
+          _SidebarItem(
+            icon: Icons.compare,
+            itemName: SidebarItemList.comparison,
             changeActiveItem: changeActiveItem,
             activeItem: activeItem,
           ),
           const SizedBox(height: 20.0),
           _SidebarItem(
             icon: Icons.analytics,
-            itemName: _SidebarItemList.analytics,
+            itemName: SidebarItemList.analytics,
             changeActiveItem: changeActiveItem,
             activeItem: activeItem,
           ),
           const SizedBox(height: 20.0),
           _SidebarItem(
             icon: Icons.settings,
-            itemName: _SidebarItemList.settings,
+            itemName: SidebarItemList.settings,
             changeActiveItem: changeActiveItem,
             activeItem: activeItem,
           ),

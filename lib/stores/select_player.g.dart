@@ -54,6 +54,21 @@ mixin _$SelectPlayerStore on _SelectPlayerStore, Store {
     });
   }
 
+  final _$playersInPageAtom = Atom(name: '_SelectPlayerStore.playersInPage');
+
+  @override
+  List<Player> get playersInPage {
+    _$playersInPageAtom.reportRead();
+    return super.playersInPage;
+  }
+
+  @override
+  set playersInPage(List<Player> value) {
+    _$playersInPageAtom.reportWrite(value, super.playersInPage, () {
+      super.playersInPage = value;
+    });
+  }
+
   final _$fetchAllPlayerAsyncAction =
       AsyncAction('_SelectPlayerStore.fetchAllPlayer');
 
@@ -103,7 +118,8 @@ mixin _$SelectPlayerStore on _SelectPlayerStore, Store {
     return '''
 currentPage: ${currentPage},
 totalPage: ${totalPage},
-players: ${players}
+players: ${players},
+playersInPage: ${playersInPage}
     ''';
   }
 }

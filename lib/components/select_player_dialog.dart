@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fpl/components/pagination.dart';
+import 'package:fpl/models/player.dart';
 import 'package:fpl/models/response_status.dart';
 import 'package:fpl/stores/select_player.dart';
 import 'package:provider/provider.dart';
@@ -103,23 +104,24 @@ class _SelectPlayerDialogContent extends StatelessWidget {
                             Text("Actions"),
                           ],
                         ),
-                        _generateSpacing(10.0, 6),
-                        _TableItem(
-                          context: context,
-                          teamName: "Man City",
-                          fixtures: "TOT(H)",
-                          playerName: "Cancelo",
-                          predictedPoints: 5.2,
-                          price: 7.5,
-                        ),
-                        _generateSpacing(10.0, 6),
-                        _TableItem(
-                          context: context,
-                          teamName: "Man City",
-                          fixtures: "TOT(H)",
-                          playerName: "Cancelo",
-                          predictedPoints: 5.2,
-                          price: 7.5,
+                        ...List<TableRow>.generate(
+                          store.playersInPage.length * 2,
+                          (index) {
+                            if (index % 2 == 0) {
+                              return _generateSpacing(10.0, 6);
+                            }
+                            var id = (index / 2).floor();
+                            Player player = store.playersInPage[id];
+
+                            return _TableItem(
+                              context: context,
+                              teamName: player.team,
+                              fixtures: "TOT(H)",
+                              playerName: player.displayName,
+                              predictedPoints: 5.2,
+                              price: player.price / 10,
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -384,7 +386,7 @@ class _TableItem extends TableRow {
                   color: Colors.green,
                   size: 16.0,
                 ),
-                Text("$price"),
+                Text(price.toStringAsFixed(1)),
               ],
             ),
             Text(fixtures),

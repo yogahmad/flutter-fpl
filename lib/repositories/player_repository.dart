@@ -8,7 +8,7 @@ class PlayerRepository {
 
   Future<List<Player>> getPlayerList() async {
     var result = await client.get("players/");
-    var body = json.decode(result.body);
+    var body = json.decode(utf8.decode(result.bodyBytes));
     List<dynamic> playerList = body["players"];
     return playerList
         .map<Player>(

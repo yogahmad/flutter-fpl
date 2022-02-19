@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fpl/components/select_player_dialog.dart';
 import 'package:fpl/configs/colors.dart';
 import 'package:fpl/configs/positions.dart';
+import 'package:fpl/stores/select_player.dart';
+import 'package:provider/provider.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -76,7 +79,7 @@ class _DashboardState extends State<Dashboard> {
                     ],
                   ),
                   const SizedBox(height: 18.0),
-                  _addPlayerButton(context, Positions.def),
+                  _AddPlayerButton(position: Positions.gk),
                 ],
               ),
             ),
@@ -183,45 +186,64 @@ class _DashboardState extends State<Dashboard> {
   }
 }
 
-Widget _addPlayerButton(context, position) {
-  return Center(
-    child: InkWell(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return SelectPlayerDialog(context: context, position: position);
-          },
-        );
-      },
-      child: Container(
-        width: 160,
-        height: 32.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color: ThemeColors.main,
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.add,
-              color: ThemeColors.white,
-            ),
-            const SizedBox(width: 10.0),
-            Text(
-              "Add a Player",
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: ThemeColors.white,
+class _AddPlayerButton extends StatelessWidget {
+  const _AddPlayerButton({
+    Key? key,
+    required this.position,
+  }) : super(key: key);
+  final String position;
+
+  @override
+  Widget build(BuildContext context) {
+    final store = Provider.of<SelectPlayerStore>(context);
+
+    return Observer(
+      builder: (_) {
+        return Center(
+          child: InkWell(
+            onTap: () {
+              store.fetchAllPlayer();
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return SelectPlayerDialog(
+                    context: context,
+                    position: position,
+                  );
+                },
+              );
+            },
+            child: Container(
+              width: 160,
+              height: 32.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: ThemeColors.main,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add,
+                    color: ThemeColors.white,
+                  ),
+                  const SizedBox(width: 10.0),
+                  Text(
+                    "Add a Player",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: ThemeColors.white,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    ),
-  );
+          ),
+        );
+      },
+    );
+  }
 }
 
 Table _generateTable({children}) {
@@ -308,28 +330,6 @@ class _TableItem extends TableRow {
             ),
           ],
         );
-}
-
-Widget _generateHeader(position) {
-  return Container(
-    width: 85.0,
-    height: 35.0,
-    margin: const EdgeInsets.symmetric(vertical: 10.0).copyWith(
-      left: 10.0,
-    ),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(22.5),
-      color: _getColorFromPosisiton(position),
-    ),
-    child: Center(
-      child: Text(
-        position,
-        style: const TextStyle(
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-    ),
-  );
 }
 
 TableRow _generateSpacing(space, numberOfRow) {

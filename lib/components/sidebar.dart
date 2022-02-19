@@ -8,7 +8,7 @@ class SidebarItemList {
   static String settings = "Settings";
 }
 
-class Sidebar extends StatefulWidget {
+class Sidebar extends StatelessWidget {
   const Sidebar({
     Key? key,
     required this.changeActivePage,
@@ -17,27 +17,6 @@ class Sidebar extends StatefulWidget {
 
   final Function changeActivePage;
   final String activePage;
-
-  @override
-  State<Sidebar> createState() => _SidebarState();
-}
-
-class _SidebarState extends State<Sidebar> {
-  late String activeItem;
-
-  void changeActiveItem(newActiveItem) {
-    if (activeItem == newActiveItem) return;
-    setState(() {
-      activeItem = newActiveItem;
-    });
-    widget.changeActivePage(newActiveItem);
-  }
-
-  @override
-  void initState() {
-    activeItem = widget.activePage;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,29 +43,29 @@ class _SidebarState extends State<Sidebar> {
           _SidebarItem(
             icon: Icons.dashboard,
             itemName: SidebarItemList.dashboard,
-            changeActiveItem: changeActiveItem,
-            activeItem: activeItem,
+            changeActiveItem: changeActivePage,
+            activeItem: activePage,
           ),
           const SizedBox(height: 20.0),
           _SidebarItem(
             icon: Icons.compare,
             itemName: SidebarItemList.comparison,
-            changeActiveItem: changeActiveItem,
-            activeItem: activeItem,
+            changeActiveItem: changeActivePage,
+            activeItem: activePage,
           ),
           const SizedBox(height: 20.0),
           _SidebarItem(
             icon: Icons.analytics,
             itemName: SidebarItemList.analytics,
-            changeActiveItem: changeActiveItem,
-            activeItem: activeItem,
+            changeActiveItem: changeActivePage,
+            activeItem: activePage,
           ),
           const SizedBox(height: 20.0),
           _SidebarItem(
             icon: Icons.settings,
             itemName: SidebarItemList.settings,
-            changeActiveItem: changeActiveItem,
-            activeItem: activeItem,
+            changeActiveItem: changeActivePage,
+            activeItem: activePage,
           ),
         ],
       ),

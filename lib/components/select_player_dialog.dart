@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fpl/components/pagination.dart';
+import 'package:fpl/models/response_status.dart';
+import 'package:fpl/stores/select_player.dart';
+import 'package:provider/provider.dart';
 
 import '../configs/colors.dart';
 
@@ -45,94 +49,88 @@ class SelectPlayerDialog extends AlertDialog {
               ),
             ],
           ),
-          content: _SelectPlayerDialogContent(),
+          content: const _SelectPlayerDialogContent(),
         );
 }
 
-class _SelectPlayerDialogContent extends StatefulWidget {
-  _SelectPlayerDialogContent({Key? key}) : super(key: key);
-
-  @override
-  State<_SelectPlayerDialogContent> createState() =>
-      __SelectPlayerDialogContentState();
-}
-
-class __SelectPlayerDialogContentState
-    extends State<_SelectPlayerDialogContent> {
-  int page = 7;
-  int currentPage = 1;
+class _SelectPlayerDialogContent extends StatelessWidget {
+  const _SelectPlayerDialogContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final store = Provider.of<SelectPlayerStore>(context);
+
     return SizedBox(
       width: 1200.0,
       height: 600.0,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _PlayerFilter(),
-          SizedBox(width: 10.0),
-          VerticalDivider(),
-          SizedBox(width: 10.0),
-          Expanded(
-            child: Column(
-              children: [
-                Table(
-                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                  columnWidths: const {
-                    0: FixedColumnWidth(150.0),
-                    2: FixedColumnWidth(80.0),
-                    3: FixedColumnWidth(160.0),
-                    4: FixedColumnWidth(150.0),
-                    5: FixedColumnWidth(80.0),
-                  },
+      child: Observer(
+        builder: (_) {
+          if (store.players.status == ResponseStatus.loading) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: ThemeColors.main,
+              ),
+            );
+          }
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const _PlayerFilter(),
+              const SizedBox(width: 10.0),
+              const VerticalDivider(),
+              const SizedBox(width: 10.0),
+              Expanded(
+                child: Column(
                   children: [
-                    TableRow(
+                    Table(
+                      defaultVerticalAlignment:
+                          TableCellVerticalAlignment.middle,
+                      columnWidths: const {
+                        0: FixedColumnWidth(150.0),
+                        2: FixedColumnWidth(80.0),
+                        3: FixedColumnWidth(160.0),
+                        4: FixedColumnWidth(150.0),
+                        5: FixedColumnWidth(80.0),
+                      },
                       children: [
-                        Text("Team"),
-                        Text("Player Name"),
-                        Text("Price"),
-                        Text("Fixtures"),
-                        Text("Predicted Points"),
-                        Text("Actions"),
+                        const TableRow(
+                          children: [
+                            Text("Team"),
+                            Text("Player Name"),
+                            Text("Price"),
+                            Text("Fixtures"),
+                            Text("Predicted Points"),
+                            Text("Actions"),
+                          ],
+                        ),
+                        _generateSpacing(10.0, 6),
+                        _TableItem(
+                          context: context,
+                          teamName: "Man City",
+                          fixtures: "TOT(H)",
+                          playerName: "Cancelo",
+                          predictedPoints: 5.2,
+                          price: 7.5,
+                        ),
+                        _generateSpacing(10.0, 6),
+                        _TableItem(
+                          context: context,
+                          teamName: "Man City",
+                          fixtures: "TOT(H)",
+                          playerName: "Cancelo",
+                          predictedPoints: 5.2,
+                          price: 7.5,
+                        ),
                       ],
                     ),
-                    _generateSpacing(10.0, 6),
-                    _TableItem(
-                      context: context,
-                      teamName: "Man City",
-                      fixtures: "TOT(H)",
-                      playerName: "Cancelo",
-                      predictedPoints: 5.2,
-                      price: 7.5,
-                    ),
-                    _generateSpacing(10.0, 6),
-                    _TableItem(
-                      context: context,
-                      teamName: "Man City",
-                      fixtures: "TOT(H)",
-                      playerName: "Cancelo",
-                      predictedPoints: 5.2,
-                      price: 7.5,
-                    ),
+                    const SizedBox(height: 10.0),
+                    const Pagination(),
                   ],
                 ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Pagination(
-                  changePage: (newPage) {
-                    setState(() {
-                      currentPage = newPage;
-                    });
-                  },
-                  currentPage: currentPage,
-                  page: page,
-                ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }

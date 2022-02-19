@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fpl/configs/colors.dart';
 
-class ComparisonPage extends StatefulWidget {
-  ComparisonPage({Key? key}) : super(key: key);
+class ComparisonPage extends StatelessWidget {
+  const ComparisonPage({Key? key}) : super(key: key);
 
-  @override
-  State<ComparisonPage> createState() => _ComparisonPageState();
-}
-
-class _ComparisonPageState extends State<ComparisonPage> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -33,7 +28,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       color: ThemeColors.white,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: _PlayerCard(),
+                    child: const _PlayerCard(),
                   ),
                 ),
                 const SizedBox(width: 30.0),
@@ -43,7 +38,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       color: ThemeColors.white,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: _PlayerCard(),
+                    child: const _PlayerCard(),
                   ),
                 ),
                 const SizedBox(width: 30.0),
@@ -86,7 +81,7 @@ class _PlayerCard extends StatelessWidget {
           alignment: Alignment.topRight,
           child: IconButton(
             onPressed: () {},
-            icon: Icon(
+            icon: const Icon(
               Icons.close,
               color: Colors.red,
             ),
@@ -96,14 +91,14 @@ class _PlayerCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Trent Alexander-Arnold",
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

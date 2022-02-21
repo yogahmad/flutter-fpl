@@ -77,6 +77,38 @@ mixin _$SelectPlayerStore on _SelectPlayerStore, Store {
     return _$fetchAllPlayerAsyncAction.run(() => super.fetchAllPlayer());
   }
 
+  final _$fetchGoalkeeperAsyncAction =
+      AsyncAction('_SelectPlayerStore.fetchGoalkeeper');
+
+  @override
+  Future<void> fetchGoalkeeper() {
+    return _$fetchGoalkeeperAsyncAction.run(() => super.fetchGoalkeeper());
+  }
+
+  final _$fetchDefenderAsyncAction =
+      AsyncAction('_SelectPlayerStore.fetchDefender');
+
+  @override
+  Future<void> fetchDefender() {
+    return _$fetchDefenderAsyncAction.run(() => super.fetchDefender());
+  }
+
+  final _$fetchMidfielderAsyncAction =
+      AsyncAction('_SelectPlayerStore.fetchMidfielder');
+
+  @override
+  Future<void> fetchMidfielder() {
+    return _$fetchMidfielderAsyncAction.run(() => super.fetchMidfielder());
+  }
+
+  final _$fetchForwardAsyncAction =
+      AsyncAction('_SelectPlayerStore.fetchForward');
+
+  @override
+  Future<void> fetchForward() {
+    return _$fetchForwardAsyncAction.run(() => super.fetchForward());
+  }
+
   final _$_SelectPlayerStoreActionController =
       ActionController(name: '_SelectPlayerStore');
 

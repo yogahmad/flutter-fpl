@@ -1,6 +1,6 @@
 class Positions {
-  static String gk = "Goalkeeper";
-  static String def = "Defender";
-  static String mid = "Midfielder";
-  static String fwd = "Forward";
+  static const String gk = "Goalkeeper";
+  static const String def = "Defender";
+  static const String mid = "Midfielder";
+  static const String fwd = "Forward";
 }

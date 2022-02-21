@@ -11,11 +11,13 @@ import '../configs/colors.dart';
 class SelectPlayerDialog extends AlertDialog {
   final String position;
   final BuildContext context;
+  final Player? replacedPlayer;
 
   SelectPlayerDialog({
     Key? key,
     required this.context,
     required this.position,
+    this.replacedPlayer,
   }) : super(
           key: key,
           title: Row(
@@ -50,12 +52,22 @@ class SelectPlayerDialog extends AlertDialog {
               ),
             ],
           ),
-          content: const _SelectPlayerDialogContent(),
+          content: _SelectPlayerDialogContent(
+            position: position,
+            replacedPlayer: replacedPlayer,
+          ),
         );
 }
 
 class _SelectPlayerDialogContent extends StatelessWidget {
-  const _SelectPlayerDialogContent({Key? key}) : super(key: key);
+  const _SelectPlayerDialogContent({
+    Key? key,
+    required this.position,
+    this.replacedPlayer,
+  }) : super(key: key);
+
+  final String position;
+  final Player? replacedPlayer;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +75,7 @@ class _SelectPlayerDialogContent extends StatelessWidget {
 
     return SizedBox(
       width: 1200.0,
-      height: 600.0,
+      height: 425.0,
       child: Observer(
         builder: (_) {
           if (store.players.status == ResponseStatus.loading) {
@@ -115,17 +127,16 @@ class _SelectPlayerDialogContent extends StatelessWidget {
 
                             return _TableItem(
                               context: context,
-                              teamName: player.team,
-                              fixtures: "TOT(H)",
-                              playerName: player.displayName,
+                              player: player,
                               predictedPoints: 5.2,
-                              price: player.price / 10,
+                              position: position,
+                              replacedPlayer: replacedPlayer,
                             );
                           },
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10.0),
+                    const SizedBox(height: 20.0),
                     const Pagination(),
                   ],
                 ),
@@ -345,20 +356,18 @@ class _PlayerFilter extends StatelessWidget {
 }
 
 class _TableItem extends TableRow {
-  final String playerName;
-  final double price;
-  final String fixtures;
-  final double predictedPoints;
   final BuildContext context;
-  final String teamName;
+  final Player player;
+  final double predictedPoints;
+  final String position;
+  final Player? replacedPlayer;
 
   _TableItem({
     required this.context,
-    required this.playerName,
-    required this.price,
-    required this.fixtures,
+    required this.player,
     required this.predictedPoints,
-    required this.teamName,
+    required this.position,
+    this.replacedPlayer,
   }) : super(
           decoration: BoxDecoration(
             color: ThemeColors.white,
@@ -366,14 +375,14 @@ class _TableItem extends TableRow {
           ),
           children: [
             Text(
-              teamName,
+              player.team,
               style: const TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.w600,
               ),
             ),
             Text(
-              playerName,
+              player.fullName,
               style: const TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.bold,
@@ -386,24 +395,57 @@ class _TableItem extends TableRow {
                   color: Colors.green,
                   size: 16.0,
                 ),
-                Text(price.toStringAsFixed(1)),
+                Text((player.price / 10).toStringAsFixed(1)),
               ],
             ),
-            Text(fixtures),
+            const Text(""),
             Text("$predictedPoints"),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: InkWell(
-                onTap: () {},
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 24.0,
-                  color: ThemeColors.main,
-                ),
-              ),
+            _SelectPlayerButton(
+              player: player,
+              position: position,
+              replacedPlayer: replacedPlayer,
             ),
           ],
         );
+}
+
+class _SelectPlayerButton extends StatelessWidget {
+  const _SelectPlayerButton({
+    Key? key,
+    required this.player,
+    required this.position,
+    this.replacedPlayer,
+  }) : super(key: key);
+
+  final Player player;
+  final String position;
+  final Player? replacedPlayer;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: InkWell(
+        onTap: () {
+          if (replacedPlayer != null) {
+            Navigator.pop(context, [
+              player,
+              replacedPlayer!,
+            ]);
+          } else {
+            Navigator.pop(context, [
+              player,
+            ]);
+          }
+        },
+        child: Icon(
+          Icons.arrow_forward_ios,
+          size: 24.0,
+          color: ThemeColors.main,
+        ),
+      ),
+    );
+  }
 }
 
 TableRow _generateSpacing(space, numberOfRow) {

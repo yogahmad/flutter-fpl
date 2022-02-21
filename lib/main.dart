@@ -4,8 +4,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fpl/pages/analytics.dart';
 import 'package:fpl/pages/comparisons.dart';
 import 'package:fpl/pages/dashboard.dart';
+import 'package:fpl/repositories/common_shared_preferences.dart';
 import 'package:fpl/stores/active_page.dart';
 import 'package:fpl/stores/select_player.dart';
+import 'package:fpl/stores/selected_team.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +15,8 @@ import 'components/sidebar.dart';
 import 'configs/colors.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  CommonSharedPreferences();
   runApp(const MyApp());
 }
 
@@ -28,6 +32,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider<SelectPlayerStore>(
           create: (_) => SelectPlayerStore(),
+        ),
+        Provider<SelectedTeamStore>(
+          create: (_) => SelectedTeamStore(),
         ),
       ],
       child: MaterialApp(

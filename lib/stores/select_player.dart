@@ -37,6 +37,46 @@ abstract class _SelectPlayerStore with Store {
   }
 
   @action
+  Future<void> fetchGoalkeeper() async {
+    players = Response<List<Player>>.loading("Loading");
+    var result = await _repository.getPlayerList(position: "1");
+    playersInPage = result.sublist(0, min(pageSize, result.length));
+    currentPage = 1;
+    totalPage = (result.length / pageSize).ceil();
+    players = Response.completed(result);
+  }
+
+  @action
+  Future<void> fetchDefender() async {
+    players = Response<List<Player>>.loading("Loading");
+    var result = await _repository.getPlayerList(position: "2");
+    playersInPage = result.sublist(0, min(pageSize, result.length));
+    currentPage = 1;
+    totalPage = (result.length / pageSize).ceil();
+    players = Response.completed(result);
+  }
+
+  @action
+  Future<void> fetchMidfielder() async {
+    players = Response<List<Player>>.loading("Loading");
+    var result = await _repository.getPlayerList(position: "3");
+    playersInPage = result.sublist(0, min(pageSize, result.length));
+    currentPage = 1;
+    totalPage = (result.length / pageSize).ceil();
+    players = Response.completed(result);
+  }
+
+  @action
+  Future<void> fetchForward() async {
+    players = Response<List<Player>>.loading("Loading");
+    var result = await _repository.getPlayerList(position: "4");
+    playersInPage = result.sublist(0, min(pageSize, result.length));
+    currentPage = 1;
+    totalPage = (result.length / pageSize).ceil();
+    players = Response.completed(result);
+  }
+
+  @action
   void changePage(newPage) {
     playersInPage = players.data!.sublist((newPage - 1) * pageSize,
         min(players.data!.length, newPage * pageSize));

@@ -14,6 +14,7 @@
                 "chrome",
                 "--web-renderer",
                 "html",
+                "--web-port=1234",
             ]
         }
     ]

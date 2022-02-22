@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fpl/components/pagination.dart';
+import 'package:fpl/configs/decimal_input_formatter.dart';
 import 'package:fpl/models/player.dart';
 import 'package:fpl/models/response_status.dart';
 import 'package:fpl/stores/select_player.dart';
@@ -90,10 +92,10 @@ class _SelectPlayerDialogContent extends StatelessWidget {
             children: [
               const _PlayerFilter(),
               const SizedBox(width: 10.0),
-              const VerticalDivider(),
               const SizedBox(width: 10.0),
               Expanded(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Table(
                       defaultVerticalAlignment:
@@ -136,7 +138,6 @@ class _SelectPlayerDialogContent extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20.0),
                     const Pagination(),
                   ],
                 ),
@@ -154,10 +155,11 @@ class _PlayerFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final store = Provider.of<SelectPlayerStore>(context);
+
     return SizedBox(
       width: 240,
       child: ListView(
-        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             "Filters",
@@ -167,6 +169,7 @@ class _PlayerFilter extends StatelessWidget {
           ),
           const SizedBox(height: 10.0),
           TextField(
+            onChanged: store.onChangedSearchPlayerField,
             style: const TextStyle(fontSize: 14.0),
             decoration: InputDecoration(
               hintText: "Search a Player...",
@@ -201,8 +204,15 @@ class _PlayerFilter extends StatelessWidget {
               SizedBox(
                 width: 100.0,
                 child: TextField(
+                  onChanged: store.onChangedMinPrice,
                   style: const TextStyle(fontSize: 14.0),
                   textAlign: TextAlign.center,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  inputFormatters: [
+                    DecimalTextInputFormatter(decimalRange: 1),
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*')),
+                  ],
                   decoration: InputDecoration(
                     hintText: "3.0",
                     isDense: true,
@@ -226,8 +236,15 @@ class _PlayerFilter extends StatelessWidget {
               SizedBox(
                 width: 100.0,
                 child: TextField(
+                  onChanged: store.onChangedMaxPrice,
                   style: const TextStyle(fontSize: 14.0),
                   textAlign: TextAlign.center,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  inputFormatters: [
+                    DecimalTextInputFormatter(decimalRange: 1),
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*')),
+                  ],
                   decoration: InputDecoration(
                     hintText: "15.0",
                     isDense: true,

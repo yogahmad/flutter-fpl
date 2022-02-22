@@ -146,6 +146,50 @@ mixin _$SelectPlayerStore on _SelectPlayerStore, Store {
   }
 
   @override
+  void onChangedSearchPlayerField(String name) {
+    final _$actionInfo = _$_SelectPlayerStoreActionController.startAction(
+        name: '_SelectPlayerStore.onChangedSearchPlayerField');
+    try {
+      return super.onChangedSearchPlayerField(name);
+    } finally {
+      _$_SelectPlayerStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void onChangedMinPrice(String price) {
+    final _$actionInfo = _$_SelectPlayerStoreActionController.startAction(
+        name: '_SelectPlayerStore.onChangedMinPrice');
+    try {
+      return super.onChangedMinPrice(price);
+    } finally {
+      _$_SelectPlayerStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void onChangedMaxPrice(String price) {
+    final _$actionInfo = _$_SelectPlayerStoreActionController.startAction(
+        name: '_SelectPlayerStore.onChangedMaxPrice');
+    try {
+      return super.onChangedMaxPrice(price);
+    } finally {
+      _$_SelectPlayerStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void applyFilter() {
+    final _$actionInfo = _$_SelectPlayerStoreActionController.startAction(
+        name: '_SelectPlayerStore.applyFilter');
+    try {
+      return super.applyFilter();
+    } finally {
+      _$_SelectPlayerStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 currentPage: ${currentPage},

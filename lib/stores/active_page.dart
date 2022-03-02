@@ -7,7 +7,7 @@ class ActivePageStore = _ActivePageStore with _$ActivePageStore;
 
 abstract class _ActivePageStore with Store {
   @observable
-  String activePage = SidebarItemList.dashboard;
+  String activePage = SidebarItemList.pickTeam;
 
   @action
   void changeActivePage(newPage) {

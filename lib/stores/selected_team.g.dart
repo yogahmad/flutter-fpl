@@ -37,6 +37,12 @@ mixin _$SelectedTeamStore on _SelectedTeamStore, Store {
       (_$isFwdFullComputed ??= Computed<bool>(() => super.isFwdFull,
               name: '_SelectedTeamStore.isFwdFull'))
           .value;
+  Computed<bool>? _$isFullComputed;
+
+  @override
+  bool get isFull => (_$isFullComputed ??=
+          Computed<bool>(() => super.isFull, name: '_SelectedTeamStore.isFull'))
+      .value;
 
   final _$goalkeepersAtom = Atom(name: '_SelectedTeamStore.goalkeepers');
 
@@ -98,6 +104,69 @@ mixin _$SelectedTeamStore on _SelectedTeamStore, Store {
     });
   }
 
+  final _$startersAtom = Atom(name: '_SelectedTeamStore.starters');
+
+  @override
+  ObservableList<Player> get starters {
+    _$startersAtom.reportRead();
+    return super.starters;
+  }
+
+  @override
+  set starters(ObservableList<Player> value) {
+    _$startersAtom.reportWrite(value, super.starters, () {
+      super.starters = value;
+    });
+  }
+
+  final _$benchAtom = Atom(name: '_SelectedTeamStore.bench');
+
+  @override
+  ObservableList<Player> get bench {
+    _$benchAtom.reportRead();
+    return super.bench;
+  }
+
+  @override
+  set bench(ObservableList<Player> value) {
+    _$benchAtom.reportWrite(value, super.bench, () {
+      super.bench = value;
+    });
+  }
+
+  final _$substitutedPlayerAtom =
+      Atom(name: '_SelectedTeamStore.substitutedPlayer');
+
+  @override
+  Player? get substitutedPlayer {
+    _$substitutedPlayerAtom.reportRead();
+    return super.substitutedPlayer;
+  }
+
+  @override
+  set substitutedPlayer(Player? value) {
+    _$substitutedPlayerAtom.reportWrite(value, super.substitutedPlayer, () {
+      super.substitutedPlayer = value;
+    });
+  }
+
+  final _$isValidAsASubstitutionAtom =
+      Atom(name: '_SelectedTeamStore.isValidAsASubstitution');
+
+  @override
+  ObservableMap<int, bool> get isValidAsASubstitution {
+    _$isValidAsASubstitutionAtom.reportRead();
+    return super.isValidAsASubstitution;
+  }
+
+  @override
+  set isValidAsASubstitution(ObservableMap<int, bool> value) {
+    _$isValidAsASubstitutionAtom
+        .reportWrite(value, super.isValidAsASubstitution, () {
+      super.isValidAsASubstitution = value;
+    });
+  }
+
   final _$removePlayerAsyncAction =
       AsyncAction('_SelectedTeamStore.removePlayer');
 
@@ -113,6 +182,42 @@ mixin _$SelectedTeamStore on _SelectedTeamStore, Store {
     return _$addPlayerAsyncAction.run(() => super.addPlayer(player, position));
   }
 
+  final _$_SelectedTeamStoreActionController =
+      ActionController(name: '_SelectedTeamStore');
+
+  @override
+  void loadStarterBench() {
+    final _$actionInfo = _$_SelectedTeamStoreActionController.startAction(
+        name: '_SelectedTeamStore.loadStarterBench');
+    try {
+      return super.loadStarterBench();
+    } finally {
+      _$_SelectedTeamStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void substitutePlayer(Player player) {
+    final _$actionInfo = _$_SelectedTeamStoreActionController.startAction(
+        name: '_SelectedTeamStore.substitutePlayer');
+    try {
+      return super.substitutePlayer(player);
+    } finally {
+      _$_SelectedTeamStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void verifySubstitutionValidity() {
+    final _$actionInfo = _$_SelectedTeamStoreActionController.startAction(
+        name: '_SelectedTeamStore.verifySubstitutionValidity');
+    try {
+      return super.verifySubstitutionValidity();
+    } finally {
+      _$_SelectedTeamStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
@@ -120,10 +225,15 @@ goalkeepers: ${goalkeepers},
 defenders: ${defenders},
 midfielders: ${midfielders},
 forwards: ${forwards},
+starters: ${starters},
+bench: ${bench},
+substitutedPlayer: ${substitutedPlayer},
+isValidAsASubstitution: ${isValidAsASubstitution},
 isGkFull: ${isGkFull},
 isDefFull: ${isDefFull},
 isMidFull: ${isMidFull},
-isFwdFull: ${isFwdFull}
+isFwdFull: ${isFwdFull},
+isFull: ${isFull}
     ''';
   }
 }

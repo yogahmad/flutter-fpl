@@ -54,6 +54,21 @@ mixin _$SelectPlayerStore on _SelectPlayerStore, Store {
     });
   }
 
+  final _$teamsAtom = Atom(name: '_SelectPlayerStore.teams');
+
+  @override
+  Response<List<Team>> get teams {
+    _$teamsAtom.reportRead();
+    return super.teams;
+  }
+
+  @override
+  set teams(Response<List<Team>> value) {
+    _$teamsAtom.reportWrite(value, super.teams, () {
+      super.teams = value;
+    });
+  }
+
   final _$playersInPageAtom = Atom(name: '_SelectPlayerStore.playersInPage');
 
   @override
@@ -67,6 +82,29 @@ mixin _$SelectPlayerStore on _SelectPlayerStore, Store {
     _$playersInPageAtom.reportWrite(value, super.playersInPage, () {
       super.playersInPage = value;
     });
+  }
+
+  final _$selectedTeamAtom = Atom(name: '_SelectPlayerStore.selectedTeam');
+
+  @override
+  ObservableList<bool> get selectedTeam {
+    _$selectedTeamAtom.reportRead();
+    return super.selectedTeam;
+  }
+
+  @override
+  set selectedTeam(ObservableList<bool> value) {
+    _$selectedTeamAtom.reportWrite(value, super.selectedTeam, () {
+      super.selectedTeam = value;
+    });
+  }
+
+  final _$fetchAllTeamsAsyncAction =
+      AsyncAction('_SelectPlayerStore.fetchAllTeams');
+
+  @override
+  Future<void> fetchAllTeams() {
+    return _$fetchAllTeamsAsyncAction.run(() => super.fetchAllTeams());
   }
 
   final _$fetchAllPlayerAsyncAction =
@@ -111,6 +149,17 @@ mixin _$SelectPlayerStore on _SelectPlayerStore, Store {
 
   final _$_SelectPlayerStoreActionController =
       ActionController(name: '_SelectPlayerStore');
+
+  @override
+  void toggleSelectedTeam(int index) {
+    final _$actionInfo = _$_SelectPlayerStoreActionController.startAction(
+        name: '_SelectPlayerStore.toggleSelectedTeam');
+    try {
+      return super.toggleSelectedTeam(index);
+    } finally {
+      _$_SelectPlayerStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void changePage(dynamic newPage) {
@@ -195,7 +244,9 @@ mixin _$SelectPlayerStore on _SelectPlayerStore, Store {
 currentPage: ${currentPage},
 totalPage: ${totalPage},
 players: ${players},
-playersInPage: ${playersInPage}
+teams: ${teams},
+playersInPage: ${playersInPage},
+selectedTeam: ${selectedTeam}
     ''';
   }
 }

@@ -6,6 +6,9 @@ class SidebarItemList {
   static String comparison = "Comparison";
   static String analytics = "Analytics";
   static String settings = "Settings";
+  static String baseTeam = "Base Team";
+  static String pickTeam = "Pick Team";
+  static String transfer = "Transfer";
 }
 
 class Sidebar extends StatelessWidget {
@@ -42,14 +45,21 @@ class Sidebar extends StatelessWidget {
           const SizedBox(height: 35.0),
           _SidebarItem(
             icon: Icons.dashboard,
-            itemName: SidebarItemList.dashboard,
+            itemName: SidebarItemList.baseTeam,
             changeActiveItem: changeActivePage,
             activeItem: activePage,
           ),
           const SizedBox(height: 20.0),
           _SidebarItem(
-            icon: Icons.compare,
-            itemName: SidebarItemList.comparison,
+            icon: Icons.downloading,
+            itemName: SidebarItemList.pickTeam,
+            changeActiveItem: changeActivePage,
+            activeItem: activePage,
+          ),
+          const SizedBox(height: 20.0),
+          _SidebarItem(
+            icon: Icons.compare_arrows,
+            itemName: SidebarItemList.transfer,
             changeActiveItem: changeActivePage,
             activeItem: activePage,
           ),

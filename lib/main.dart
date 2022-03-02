@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:fpl/pages/analytics.dart';
 import 'package:fpl/pages/comparisons.dart';
 import 'package:fpl/pages/dashboard.dart';
+import 'package:fpl/pages/pick_team.dart';
 import 'package:fpl/repositories/common_shared_preferences.dart';
 import 'package:fpl/stores/active_page.dart';
 import 'package:fpl/stores/select_player.dart';
@@ -75,10 +75,10 @@ class HomePage extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(30.0),
-                  child: activePageStore.activePage == SidebarItemList.dashboard
+                  child: activePageStore.activePage == SidebarItemList.baseTeam
                       ? const Dashboard()
-                      : activePageStore.activePage == SidebarItemList.analytics
-                          ? const AnalyticsPage()
+                      : activePageStore.activePage == SidebarItemList.pickTeam
+                          ? const PickTeam()
                           : activePageStore.activePage ==
                                   SidebarItemList.comparison
                               ? const ComparisonPage()

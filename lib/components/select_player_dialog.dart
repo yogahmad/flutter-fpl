@@ -77,10 +77,11 @@ class _SelectPlayerDialogContent extends StatelessWidget {
 
     return SizedBox(
       width: 1200.0,
-      height: 425.0,
+      height: 600.0,
       child: Observer(
         builder: (_) {
-          if (store.players.status == ResponseStatus.loading) {
+          if (store.players.status == ResponseStatus.loading ||
+              store.teams.status == ResponseStatus.loading) {
             return Center(
               child: CircularProgressIndicator(
                 color: ThemeColors.main,
@@ -158,215 +159,193 @@ class _PlayerFilter extends StatelessWidget {
     final store = Provider.of<SelectPlayerStore>(context);
 
     return SizedBox(
-      width: 240,
-      child: ListView(
-        children: [
-          const Text(
-            "Filters",
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 10.0),
-          TextField(
-            onChanged: store.onChangedSearchPlayerField,
-            style: const TextStyle(fontSize: 14.0),
-            decoration: InputDecoration(
-              hintText: "Search a Player...",
-              prefixIcon: Icon(
-                Icons.search,
-                size: 16.0,
-                color: ThemeColors.main,
-              ),
-              isDense: true,
-              contentPadding: const EdgeInsets.all(10.0),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4.0),
-                borderSide: const BorderSide(
-                  color: Color(0xFFD8DEE7),
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4.0),
-                borderSide: const BorderSide(
-                  color: Color(0xFFD8DEE7),
-                ),
+      width: 280,
+      child: ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(
+          scrollbars: false,
+        ),
+        child: ListView(
+          children: [
+            const Text(
+              "Filters",
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
               ),
             ),
-          ),
-          const SizedBox(height: 10.0),
-          const Divider(),
-          const Text("Price", style: TextStyle(fontSize: 14.0)),
-          const SizedBox(height: 10.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: 100.0,
-                child: TextField(
-                  onChanged: store.onChangedMinPrice,
-                  style: const TextStyle(fontSize: 14.0),
-                  textAlign: TextAlign.center,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  inputFormatters: [
-                    DecimalTextInputFormatter(decimalRange: 1),
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*')),
-                  ],
-                  decoration: InputDecoration(
-                    hintText: "3.0",
-                    isDense: true,
-                    contentPadding: const EdgeInsets.all(10.0),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                      borderSide: const BorderSide(
-                        color: Color(0xFFD8DEE7),
-                      ),
+            const SizedBox(height: 10.0),
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: TextField(
+                onChanged: store.onChangedSearchPlayerField,
+                style: const TextStyle(fontSize: 14.0),
+                decoration: InputDecoration(
+                  hintText: "Search a Player...",
+                  prefixIcon: Icon(
+                    Icons.search,
+                    size: 16.0,
+                    color: ThemeColors.main,
+                  ),
+                  isDense: true,
+                  contentPadding: const EdgeInsets.all(10.0),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                    borderSide: const BorderSide(
+                      color: Color(0xFFD8DEE7),
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                      borderSide: const BorderSide(
-                        color: Color(0xFFD8DEE7),
-                      ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                    borderSide: const BorderSide(
+                      color: Color(0xFFD8DEE7),
                     ),
                   ),
                 ),
               ),
-              const Text("-"),
-              SizedBox(
-                width: 100.0,
-                child: TextField(
-                  onChanged: store.onChangedMaxPrice,
-                  style: const TextStyle(fontSize: 14.0),
-                  textAlign: TextAlign.center,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  inputFormatters: [
-                    DecimalTextInputFormatter(decimalRange: 1),
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*')),
-                  ],
-                  decoration: InputDecoration(
-                    hintText: "15.0",
-                    isDense: true,
-                    contentPadding: const EdgeInsets.all(10.0),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                      borderSide: const BorderSide(
-                        color: Color(0xFFD8DEE7),
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                      borderSide: const BorderSide(
-                        color: Color(0xFFD8DEE7),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10.0),
-          const Divider(),
-          const Text("Teams", style: TextStyle(fontSize: 14.0)),
-          const SizedBox(height: 10.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            ),
+            const SizedBox(height: 10.0),
+            const Divider(),
+            const Text("Price", style: TextStyle(fontSize: 14.0)),
+            const SizedBox(height: 10.0),
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Transform.scale(
-                        scale: 0.8,
-                        child: Checkbox(
-                          activeColor: ThemeColors.main,
-                          value: true,
-                          onChanged: (selected) {},
+                  SizedBox(
+                    width: 100.0,
+                    child: TextField(
+                      onChanged: store.onChangedMinPrice,
+                      style: const TextStyle(fontSize: 14.0),
+                      textAlign: TextAlign.center,
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
+                      inputFormatters: [
+                        DecimalTextInputFormatter(decimalRange: 1),
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d*')),
+                      ],
+                      decoration: InputDecoration(
+                        hintText: "3.0",
+                        isDense: true,
+                        contentPadding: const EdgeInsets.all(10.0),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFD8DEE7),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFD8DEE7),
+                          ),
                         ),
                       ),
-                      const Text(
-                        "Arsenal",
-                        style: TextStyle(fontSize: 14.0),
-                      )
-                    ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Transform.scale(
-                        scale: 0.8,
-                        child: Checkbox(
-                          activeColor: ThemeColors.main,
-                          value: true,
-                          onChanged: (selected) {},
+                  const Text("-"),
+                  SizedBox(
+                    width: 100.0,
+                    child: TextField(
+                      onChanged: store.onChangedMaxPrice,
+                      style: const TextStyle(fontSize: 14.0),
+                      textAlign: TextAlign.center,
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
+                      inputFormatters: [
+                        DecimalTextInputFormatter(decimalRange: 1),
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d*')),
+                      ],
+                      decoration: InputDecoration(
+                        hintText: "15.0",
+                        isDense: true,
+                        contentPadding: const EdgeInsets.all(10.0),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFD8DEE7),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFD8DEE7),
+                          ),
                         ),
                       ),
-                      const Text(
-                        "Brighton",
-                        style: TextStyle(fontSize: 14.0),
-                      )
-                    ],
+                    ),
                   ),
                 ],
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Transform.scale(
-                        scale: 0.8,
-                        child: Checkbox(
-                          activeColor: ThemeColors.main,
-                          value: true,
-                          onChanged: (selected) {},
-                        ),
-                      ),
-                      const Text(
-                        "Man City",
-                        style: TextStyle(fontSize: 14.0),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Transform.scale(
-                        scale: 0.8,
-                        child: Checkbox(
-                          activeColor: ThemeColors.main,
-                          value: true,
-                          onChanged: (selected) {},
-                        ),
-                      ),
-                      const Text(
-                        "Man Utd",
-                        style: TextStyle(fontSize: 14.0),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Transform.scale(
-                        scale: 0.8,
-                        child: Checkbox(
-                          activeColor: ThemeColors.main,
-                          value: true,
-                          onChanged: (selected) {},
-                        ),
-                      ),
-                      const Text(
-                        "Southampthon",
-                        style: TextStyle(fontSize: 14.0),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+            ),
+            const SizedBox(height: 10.0),
+            const Divider(),
+            const Text("Teams", style: TextStyle(fontSize: 14.0)),
+            const SizedBox(height: 10.0),
+            Observer(builder: (_) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: store.teams.data!
+                          .sublist(0, 10)
+                          .map((team) => Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 0.8,
+                                    child: Checkbox(
+                                      activeColor: ThemeColors.main,
+                                      value: store.selectedTeam[
+                                          store.mapTeamId[team.fplId]!],
+                                      onChanged: (selected) {
+                                        store.toggleSelectedTeam(team.fplId);
+                                      },
+                                    ),
+                                  ),
+                                  Text(
+                                    team.name,
+                                    style: const TextStyle(fontSize: 14.0),
+                                  )
+                                ],
+                              ))
+                          .toList(),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: store.teams.data!
+                          .sublist(10, 20)
+                          .map((team) => Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 0.8,
+                                    child: Checkbox(
+                                      activeColor: ThemeColors.main,
+                                      value: store.selectedTeam[
+                                          store.mapTeamId[team.fplId]!],
+                                      onChanged: (selected) {
+                                        store.toggleSelectedTeam(team.fplId);
+                                      },
+                                    ),
+                                  ),
+                                  Text(
+                                    team.name,
+                                    style: const TextStyle(fontSize: 14.0),
+                                  )
+                                ],
+                              ))
+                          .toList(),
+                    ),
+                  ],
+                ),
+              );
+            }),
+          ],
+        ),
       ),
     );
   }

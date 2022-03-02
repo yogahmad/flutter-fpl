@@ -22,262 +22,267 @@ class _DashboardState extends State<Dashboard> {
 
     return Observer(
       builder: (_) => Expanded(
-        child: ListView(
-          children: [
-            const Text(
-              "Pick Team",
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 24.0,
-              ),
-            ),
-            const SizedBox(height: 35.0),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: SizedBox(
-                width: 900.0,
-                child: Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: ThemeColors.white,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 160,
-                              height: 32.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: _getColorFromPosisiton(Positions.gk),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  Positions.gk,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 20.0),
-                            _generateTable(
-                              children: [
-                                const TableRow(
-                                  children: [
-                                    Text("Team"),
-                                    Text("Player Name"),
-                                    Text("Price"),
-                                    Text("Fixtures"),
-                                    Text("Predicted Points"),
-                                    Text("Actions"),
-                                  ],
-                                ),
-                                _generateSpacing(18.0, 6),
-                                ...List.generate(
-                                  store.goalkeepers.length,
-                                  (index) => _TableItem(
-                                    context: context,
-                                    fixtures: "",
-                                    player: store.goalkeepers[index],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            if (!store.isGkFull) ...[
-                              const SizedBox(height: 18.0),
-                              const _AddPlayerButton(position: Positions.gk),
-                            ],
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30.0),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: ThemeColors.white,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 160,
-                              height: 32.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: _getColorFromPosisiton(Positions.def),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  Positions.def,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 20.0),
-                            _generateTable(
-                              children: [
-                                const TableRow(
-                                  children: [
-                                    Text("Team"),
-                                    Text("Player Name"),
-                                    Text("Price"),
-                                    Text("Fixtures"),
-                                    Text("Predicted Points"),
-                                    Text("Actions"),
-                                  ],
-                                ),
-                                _generateSpacing(18.0, 6),
-                                ...List.generate(
-                                  store.defenders.length,
-                                  (index) => _TableItem(
-                                    context: context,
-                                    fixtures: "",
-                                    player: store.defenders[index],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            if (!store.isDefFull) ...[
-                              const SizedBox(height: 18.0),
-                              const _AddPlayerButton(position: Positions.def),
-                            ],
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30.0),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: ThemeColors.white,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 160,
-                              height: 32.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: _getColorFromPosisiton(Positions.mid),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  Positions.mid,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 20.0),
-                            _generateTable(
-                              children: [
-                                const TableRow(
-                                  children: [
-                                    Text("Team"),
-                                    Text("Player Name"),
-                                    Text("Price"),
-                                    Text("Fixtures"),
-                                    Text("Predicted Points"),
-                                    Text("Actions"),
-                                  ],
-                                ),
-                                _generateSpacing(18.0, 6),
-                                ...List.generate(
-                                  store.midfielders.length,
-                                  (index) => _TableItem(
-                                    context: context,
-                                    fixtures: "",
-                                    player: store.midfielders[index],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            if (!store.isMidFull) ...[
-                              const SizedBox(height: 18.0),
-                              const _AddPlayerButton(position: Positions.mid),
-                            ],
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30.0),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: ThemeColors.white,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 160,
-                              height: 32.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: _getColorFromPosisiton(Positions.fwd),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  Positions.fwd,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 20.0),
-                            _generateTable(
-                              children: [
-                                const TableRow(
-                                  children: [
-                                    Text("Team"),
-                                    Text("Player Name"),
-                                    Text("Price"),
-                                    Text("Fixtures"),
-                                    Text("Predicted Points"),
-                                    Text("Actions"),
-                                  ],
-                                ),
-                                _generateSpacing(18.0, 6),
-                                ...List.generate(
-                                  store.forwards.length,
-                                  (index) => _TableItem(
-                                    context: context,
-                                    fixtures: "",
-                                    player: store.forwards[index],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            if (!store.isFwdFull) ...[
-                              const SizedBox(height: 18.0),
-                              const _AddPlayerButton(position: Positions.fwd),
-                            ],
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+        child: ScrollConfiguration(
+          behavior: ScrollConfiguration.of(context).copyWith(
+            scrollbars: false,
+          ),
+          child: ListView(
+            children: [
+              const Text(
+                "Select Base Team",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 24.0,
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 35.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: SizedBox(
+                  width: 900.0,
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: ThemeColors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 160,
+                                height: 32.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: _getColorFromPosisiton(Positions.gk),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    Positions.gk,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20.0),
+                              _generateTable(
+                                children: [
+                                  const TableRow(
+                                    children: [
+                                      Text("Team"),
+                                      Text("Player Name"),
+                                      Text("Price"),
+                                      Text("Fixtures"),
+                                      Text("Predicted Points"),
+                                      Text("Actions"),
+                                    ],
+                                  ),
+                                  _generateSpacing(18.0, 6),
+                                  ...List.generate(
+                                    store.goalkeepers.length,
+                                    (index) => _TableItem(
+                                      context: context,
+                                      fixtures: "",
+                                      player: store.goalkeepers[index],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if (!store.isGkFull) ...[
+                                const SizedBox(height: 18.0),
+                                const _AddPlayerButton(position: Positions.gk),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 30.0),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: ThemeColors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 160,
+                                height: 32.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: _getColorFromPosisiton(Positions.def),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    Positions.def,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20.0),
+                              _generateTable(
+                                children: [
+                                  const TableRow(
+                                    children: [
+                                      Text("Team"),
+                                      Text("Player Name"),
+                                      Text("Price"),
+                                      Text("Fixtures"),
+                                      Text("Predicted Points"),
+                                      Text("Actions"),
+                                    ],
+                                  ),
+                                  _generateSpacing(18.0, 6),
+                                  ...List.generate(
+                                    store.defenders.length,
+                                    (index) => _TableItem(
+                                      context: context,
+                                      fixtures: "",
+                                      player: store.defenders[index],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if (!store.isDefFull) ...[
+                                const SizedBox(height: 18.0),
+                                const _AddPlayerButton(position: Positions.def),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 30.0),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: ThemeColors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 160,
+                                height: 32.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: _getColorFromPosisiton(Positions.mid),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    Positions.mid,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20.0),
+                              _generateTable(
+                                children: [
+                                  const TableRow(
+                                    children: [
+                                      Text("Team"),
+                                      Text("Player Name"),
+                                      Text("Price"),
+                                      Text("Fixtures"),
+                                      Text("Predicted Points"),
+                                      Text("Actions"),
+                                    ],
+                                  ),
+                                  _generateSpacing(18.0, 6),
+                                  ...List.generate(
+                                    store.midfielders.length,
+                                    (index) => _TableItem(
+                                      context: context,
+                                      fixtures: "",
+                                      player: store.midfielders[index],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if (!store.isMidFull) ...[
+                                const SizedBox(height: 18.0),
+                                const _AddPlayerButton(position: Positions.mid),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 30.0),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: ThemeColors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 160,
+                                height: 32.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: _getColorFromPosisiton(Positions.fwd),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    Positions.fwd,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20.0),
+                              _generateTable(
+                                children: [
+                                  const TableRow(
+                                    children: [
+                                      Text("Team"),
+                                      Text("Player Name"),
+                                      Text("Price"),
+                                      Text("Fixtures"),
+                                      Text("Predicted Points"),
+                                      Text("Actions"),
+                                    ],
+                                  ),
+                                  _generateSpacing(18.0, 6),
+                                  ...List.generate(
+                                    store.forwards.length,
+                                    (index) => _TableItem(
+                                      context: context,
+                                      fixtures: "",
+                                      player: store.forwards[index],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if (!store.isFwdFull) ...[
+                                const SizedBox(height: 18.0),
+                                const _AddPlayerButton(position: Positions.fwd),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -301,6 +306,7 @@ class _AddPlayerButton extends StatelessWidget {
         return Center(
           child: InkWell(
             onTap: () async {
+              store.fetchAllTeams();
               if (position == Positions.gk) {
                 store.fetchGoalkeeper();
               } else if (position == Positions.def) {
@@ -440,6 +446,7 @@ class _SubstitutePlayerButton extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: InkWell(
         onTap: () async {
+          store.fetchAllTeams();
           if (position == Positions.gk) {
             store.fetchGoalkeeper();
           } else if (position == Positions.def) {

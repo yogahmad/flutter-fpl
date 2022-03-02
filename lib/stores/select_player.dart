@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:diacritic/diacritic.dart';
 import 'package:fpl/models/player.dart';
 import 'package:fpl/models/response_status.dart';
+import 'package:fpl/models/team.dart';
 import 'package:fpl/repositories/player_repository.dart';
+import 'package:fpl/repositories/team_repository.dart';
 import 'package:mobx/mobx.dart';
 
 part 'select_player.g.dart';
@@ -12,12 +14,14 @@ class SelectPlayerStore = _SelectPlayerStore with _$SelectPlayerStore;
 
 // The store-class
 abstract class _SelectPlayerStore with Store {
-  final PlayerRepository _repository = PlayerRepository();
-  final int pageSize = 10;
+  final PlayerRepository _playerRepository = PlayerRepository();
+  final TeamRepository _teamRepository = TeamRepository();
+  final int pageSize = 15;
   String searchField = "";
   int minPrice = 0;
   int maxPrice = 200;
   List<Player> filteredPlayers = <Player>[];
+  final Map<int, int> mapTeamId = {};
 
   @observable
   int currentPage = 1;
@@ -29,66 +33,97 @@ abstract class _SelectPlayerStore with Store {
   Response<List<Player>> players = Response<List<Player>>.loading("Loading");
 
   @observable
+  Response<List<Team>> teams = Response<List<Team>>.loading("Loading");
+
+  @observable
   List<Player> playersInPage = <Player>[];
+
+  @observable
+  ObservableList<bool> selectedTeam =
+      ObservableList.of(List.generate(20, (index) => false));
+
+  @action
+  void toggleSelectedTeam(int index) {
+    var id = mapTeamId[index];
+    selectedTeam[id!] = !selectedTeam[id];
+    applyFilter();
+  }
+
+  @action
+  Future<void> fetchAllTeams() async {
+    if (teams.status == ResponseStatus.completed) return;
+    teams = Response<List<Team>>.loading("Loading");
+    var result = await _teamRepository.getTeamList();
+    int index = 0;
+    for (var team in result) {
+      mapTeamId[team.fplId] = index++;
+    }
+    teams = Response.completed(result);
+  }
 
   @action
   Future<void> fetchAllPlayer() async {
     players = Response<List<Player>>.loading("Loading");
-    var result = await _repository.getPlayerList();
+    var result = await _playerRepository.getPlayerList();
     playersInPage = result.sublist(0, min(pageSize, result.length));
     currentPage = 1;
     totalPage = (result.length / pageSize).ceil();
     filteredPlayers = result;
     searchField = "";
     players = Response.completed(result);
+    selectedTeam = ObservableList.of(List.generate(20, (index) => false));
   }
 
   @action
   Future<void> fetchGoalkeeper() async {
     players = Response<List<Player>>.loading("Loading");
-    var result = await _repository.getPlayerList(position: "1");
+    var result = await _playerRepository.getPlayerList(position: "1");
     playersInPage = result.sublist(0, min(pageSize, result.length));
     currentPage = 1;
     totalPage = (result.length / pageSize).ceil();
     filteredPlayers = result;
     searchField = "";
     players = Response.completed(result);
+    selectedTeam = ObservableList.of(List.generate(20, (index) => false));
   }
 
   @action
   Future<void> fetchDefender() async {
     players = Response<List<Player>>.loading("Loading");
-    var result = await _repository.getPlayerList(position: "2");
+    var result = await _playerRepository.getPlayerList(position: "2");
     playersInPage = result.sublist(0, min(pageSize, result.length));
     currentPage = 1;
     totalPage = (result.length / pageSize).ceil();
     filteredPlayers = result;
     searchField = "";
     players = Response.completed(result);
+    selectedTeam = ObservableList.of(List.generate(20, (index) => false));
   }
 
   @action
   Future<void> fetchMidfielder() async {
     players = Response<List<Player>>.loading("Loading");
-    var result = await _repository.getPlayerList(position: "3");
+    var result = await _playerRepository.getPlayerList(position: "3");
     playersInPage = result.sublist(0, min(pageSize, result.length));
     currentPage = 1;
     totalPage = (result.length / pageSize).ceil();
     filteredPlayers = result;
     searchField = "";
     players = Response.completed(result);
+    selectedTeam = ObservableList.of(List.generate(20, (index) => false));
   }
 
   @action
   Future<void> fetchForward() async {
     players = Response<List<Player>>.loading("Loading");
-    var result = await _repository.getPlayerList(position: "4");
+    var result = await _playerRepository.getPlayerList(position: "4");
     playersInPage = result.sublist(0, min(pageSize, result.length));
     currentPage = 1;
     totalPage = (result.length / pageSize).ceil();
     filteredPlayers = result;
     searchField = "";
     players = Response.completed(result);
+    selectedTeam = ObservableList.of(List.generate(20, (index) => false));
   }
 
   @action
@@ -161,6 +196,17 @@ abstract class _SelectPlayerStore with Store {
     newfilteredPlayers = newfilteredPlayers
         .where((player) => minPrice <= player.price && player.price <= maxPrice)
         .toList();
+
+    bool isAllUnselected = true;
+    for (var isSelected in selectedTeam) {
+      isAllUnselected &= !isSelected;
+    }
+
+    if (!isAllUnselected) {
+      newfilteredPlayers = newfilteredPlayers
+          .where((player) => selectedTeam[mapTeamId[player.teamId]!])
+          .toList();
+    }
 
     currentPage = 1;
     totalPage = (newfilteredPlayers.length / pageSize).ceil();

@@ -15,6 +15,7 @@ class Player {
     this.position,
     this.understatId,
     this.team,
+    this.teamId,
   );
 
   final int fplId;
@@ -27,6 +28,7 @@ class Player {
   final String position;
   final int? understatId;
   final String team;
+  final int teamId;
 
   factory Player.fromJson(Map<String, dynamic> json) => _$PlayerFromJson(json);
   Map<String, dynamic> toJson() => _$PlayerToJson(this);

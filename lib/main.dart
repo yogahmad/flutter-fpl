@@ -6,6 +6,7 @@ import 'package:fpl/pages/dashboard.dart';
 import 'package:fpl/pages/pick_team.dart';
 import 'package:fpl/repositories/common_shared_preferences.dart';
 import 'package:fpl/stores/active_page.dart';
+import 'package:fpl/stores/gameweek_store.dart';
 import 'package:fpl/stores/select_player.dart';
 import 'package:fpl/stores/selected_team.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,6 +36,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider<SelectedTeamStore>(
           create: (_) => SelectedTeamStore(),
+        ),
+        Provider<GameweekStore>(
+          create: (_) => GameweekStore(),
         ),
       ],
       child: MaterialApp(

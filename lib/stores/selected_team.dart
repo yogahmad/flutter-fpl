@@ -30,6 +30,9 @@ abstract class _SelectedTeamStore with Store {
   @observable
   ObservableMap<int, bool> isValidAsASubstitution = ObservableMap<int, bool>();
 
+  @observable
+  int currentGameweek = 28;
+
   @computed
   bool get isGkFull => goalkeepers.length >= 2;
 
@@ -233,6 +236,10 @@ abstract class _SelectedTeamStore with Store {
     for (Player player in bench) {
       isValidAsASubstitution[player.fplId] = true;
     }
+
+    for (var gameweek = 1; gameweek <= 38; gameweek++) {
+      updateToDatabase(allStarters, allBench, gameweek);
+    }
   }
 
   @action
@@ -275,6 +282,7 @@ abstract class _SelectedTeamStore with Store {
             Positions.compareTo(p0.position, p1.position));
     substitutedPlayer = null;
     verifySubstitutionValidity();
+    updateToDatabase(starters, bench, currentGameweek);
   }
 
   @action
@@ -372,5 +380,57 @@ abstract class _SelectedTeamStore with Store {
         isValidAsASubstitution[player.fplId] = validity;
       }
     }
+  }
+
+  @action
+  void goToNextGameweek() {
+    if (currentGameweek == 38) return;
+    currentGameweek = currentGameweek + 1;
+    getStarterBenchFromDatabase();
+  }
+
+  @action
+  void goToPrevGameweek() {
+    if (currentGameweek == 1) return;
+    currentGameweek = currentGameweek - 1;
+    getStarterBenchFromDatabase();
+  }
+
+  void updateToDatabase(
+    List<Player> allStarters,
+    List<Player> allBench,
+    int gameweek,
+  ) async {
+    var starterJson = allStarters
+        .map<String>((player) => json.encode(player.toJson()))
+        .toList();
+    var benchJson =
+        allBench.map<String>((player) => json.encode(player.toJson())).toList();
+
+    await CommonSharedPreferences.setStringList(
+      SharedPreferencesKeyList.starterGameweekData(gameweek),
+      starterJson,
+    );
+    await CommonSharedPreferences.setStringList(
+      SharedPreferencesKeyList.benchGameweekData(gameweek),
+      benchJson,
+    );
+  }
+
+  @action
+  void getStarterBenchFromDatabase() {
+    var startersJson = CommonSharedPreferences.getStringList(
+        SharedPreferencesKeyList.starterGameweekData(currentGameweek));
+    var benchJson = CommonSharedPreferences.getStringList(
+        SharedPreferencesKeyList.benchGameweekData(currentGameweek));
+
+    var allStarters = startersJson!
+        .map((data) => Player.fromJson(json.decode(data)))
+        .toList();
+    var allBench =
+        benchJson!.map((data) => Player.fromJson(json.decode(data))).toList();
+
+    starters = ObservableList.of(allStarters);
+    bench = ObservableList.of(allBench);
   }
 }

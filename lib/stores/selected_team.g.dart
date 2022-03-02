@@ -167,6 +167,22 @@ mixin _$SelectedTeamStore on _SelectedTeamStore, Store {
     });
   }
 
+  final _$currentGameweekAtom =
+      Atom(name: '_SelectedTeamStore.currentGameweek');
+
+  @override
+  int get currentGameweek {
+    _$currentGameweekAtom.reportRead();
+    return super.currentGameweek;
+  }
+
+  @override
+  set currentGameweek(int value) {
+    _$currentGameweekAtom.reportWrite(value, super.currentGameweek, () {
+      super.currentGameweek = value;
+    });
+  }
+
   final _$removePlayerAsyncAction =
       AsyncAction('_SelectedTeamStore.removePlayer');
 
@@ -219,6 +235,39 @@ mixin _$SelectedTeamStore on _SelectedTeamStore, Store {
   }
 
   @override
+  void goToNextGameweek() {
+    final _$actionInfo = _$_SelectedTeamStoreActionController.startAction(
+        name: '_SelectedTeamStore.goToNextGameweek');
+    try {
+      return super.goToNextGameweek();
+    } finally {
+      _$_SelectedTeamStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void goToPrevGameweek() {
+    final _$actionInfo = _$_SelectedTeamStoreActionController.startAction(
+        name: '_SelectedTeamStore.goToPrevGameweek');
+    try {
+      return super.goToPrevGameweek();
+    } finally {
+      _$_SelectedTeamStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void getStarterBenchFromDatabase() {
+    final _$actionInfo = _$_SelectedTeamStoreActionController.startAction(
+        name: '_SelectedTeamStore.getStarterBenchFromDatabase');
+    try {
+      return super.getStarterBenchFromDatabase();
+    } finally {
+      _$_SelectedTeamStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 goalkeepers: ${goalkeepers},
@@ -229,6 +278,7 @@ starters: ${starters},
 bench: ${bench},
 substitutedPlayer: ${substitutedPlayer},
 isValidAsASubstitution: ${isValidAsASubstitution},
+currentGameweek: ${currentGameweek},
 isGkFull: ${isGkFull},
 isDefFull: ${isDefFull},
 isMidFull: ${isMidFull},

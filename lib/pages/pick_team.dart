@@ -68,154 +68,155 @@ class PickTeam extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 35.0),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: SizedBox(
-                width: 900.0,
-                child: Column(
+            Wrap(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: ThemeColors.white,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Starter",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            const SizedBox(height: 20.0),
-                            Table(
-                              defaultVerticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              columnWidths: const {
-                                0: FixedColumnWidth(40.0),
-                                1: FixedColumnWidth(80.0),
-                                3: FixedColumnWidth(80.0),
-                                4: FixedColumnWidth(200.0),
-                                5: FixedColumnWidth(150.0),
-                                6: FixedColumnWidth(80.0),
-                              },
-                              children: [
-                                const TableRow(
-                                  children: [
-                                    Text(""),
-                                    Center(child: Text("Info")),
-                                    Text("Player Name"),
-                                    Text("Price"),
-                                    Text("Fixtures"),
-                                    Text("Predicted Points"),
-                                    Center(child: Text("Actions")),
-                                  ],
+                    SizedBox(
+                      width: 900.0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: ThemeColors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Starter",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18.0,
                                 ),
-                                _generateSpacing(12.0, 7),
-                                ...store.starters
-                                    .map(
-                                      (player) => _TableItem(
-                                        player: player,
-                                        isStarter: true,
-                                        substitutePlayer:
-                                            store.substitutePlayer,
-                                        gameweek: store.currentGameweek,
-                                        isSelected:
-                                            store.substitutedPlayer == player,
-                                        isSubstitutionValid:
-                                            store.isValidAsASubstitution[
-                                                player.fplId]!,
-                                      ),
-                                    )
-                                    .toList(),
-                              ],
-                            ),
-                          ],
+                              ),
+                              const SizedBox(height: 20.0),
+                              Table(
+                                defaultVerticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                columnWidths: const {
+                                  0: FixedColumnWidth(40.0),
+                                  1: FixedColumnWidth(80.0),
+                                  3: FixedColumnWidth(80.0),
+                                  4: FixedColumnWidth(200.0),
+                                  5: FixedColumnWidth(150.0),
+                                  6: FixedColumnWidth(80.0),
+                                },
+                                children: [
+                                  const TableRow(
+                                    children: [
+                                      Text(""),
+                                      Center(child: Text("Info")),
+                                      Text("Player Name"),
+                                      Text("Price"),
+                                      Text("Fixtures"),
+                                      Text("Predicted Points"),
+                                      Center(child: Text("Actions")),
+                                    ],
+                                  ),
+                                  _generateSpacing(12.0, 7),
+                                  ...store.starters
+                                      .map(
+                                        (player) => _TableItem(
+                                          player: player,
+                                          isStarter: true,
+                                          substitutePlayer:
+                                              store.substitutePlayer,
+                                          gameweek: store.currentGameweek,
+                                          isSelected:
+                                              store.substitutedPlayer == player,
+                                          isSubstitutionValid:
+                                              store.isValidAsASubstitution[
+                                                  player.fplId]!,
+                                        ),
+                                      )
+                                      .toList(),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10.0),
+                    SizedBox(
+                      width: 900.0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: ThemeColors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Bench",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                              const SizedBox(height: 20.0),
+                              Table(
+                                defaultVerticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                columnWidths: const {
+                                  0: FixedColumnWidth(40.0),
+                                  1: FixedColumnWidth(80.0),
+                                  3: FixedColumnWidth(80.0),
+                                  4: FixedColumnWidth(200.0),
+                                  5: FixedColumnWidth(150.0),
+                                  6: FixedColumnWidth(80.0),
+                                },
+                                children: [
+                                  const TableRow(
+                                    children: [
+                                      Text(""),
+                                      Center(child: Text("Info")),
+                                      Text("Player Name"),
+                                      Text("Price"),
+                                      Text("Fixtures"),
+                                      Text("Predicted Points"),
+                                      Center(child: Text("Actions")),
+                                    ],
+                                  ),
+                                  _generateSpacing(12.0, 7),
+                                  ...store.bench
+                                      .map(
+                                        (player) => _TableItem(
+                                          player: player,
+                                          isStarter: false,
+                                          substitutePlayer:
+                                              store.substitutePlayer,
+                                          gameweek: store.currentGameweek,
+                                          isSelected:
+                                              store.substitutedPlayer == player,
+                                          isSubstitutionValid:
+                                              store.isValidAsASubstitution[
+                                                  player.fplId]!,
+                                        ),
+                                      )
+                                      .toList(),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: SizedBox(
-                width: 900.0,
-                child: Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: ThemeColors.white,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Bench",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            const SizedBox(height: 20.0),
-                            Table(
-                              defaultVerticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              columnWidths: const {
-                                0: FixedColumnWidth(40.0),
-                                1: FixedColumnWidth(80.0),
-                                3: FixedColumnWidth(80.0),
-                                4: FixedColumnWidth(200.0),
-                                5: FixedColumnWidth(150.0),
-                                6: FixedColumnWidth(80.0),
-                              },
-                              children: [
-                                const TableRow(
-                                  children: [
-                                    Text(""),
-                                    Center(child: Text("Info")),
-                                    Text("Player Name"),
-                                    Text("Price"),
-                                    Text("Fixtures"),
-                                    Text("Predicted Points"),
-                                    Center(child: Text("Actions")),
-                                  ],
-                                ),
-                                _generateSpacing(12.0, 7),
-                                ...store.bench
-                                    .map(
-                                      (player) => _TableItem(
-                                        player: player,
-                                        isStarter: false,
-                                        substitutePlayer:
-                                            store.substitutePlayer,
-                                        gameweek: store.currentGameweek,
-                                        isSelected:
-                                            store.substitutedPlayer == player,
-                                        isSubstitutionValid:
-                                            store.isValidAsASubstitution[
-                                                player.fplId]!,
-                                      ),
-                                    )
-                                    .toList(),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30.0),
-                  ],
+                Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: _TransferList(),
                 ),
-              ),
+              ],
             ),
+            const SizedBox(height: 30.0),
           ],
         ),
       );
@@ -302,6 +303,94 @@ class _TableItem extends TableRow {
         );
 }
 
+class _TransferList extends StatelessWidget {
+  const _TransferList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final store = Provider.of<SelectedTeamStore>(context);
+
+    return Observer(builder: (_) {
+      return SizedBox(
+        width: 400.0,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.0),
+            color: ThemeColors.white,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Transfers",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18.0,
+                  ),
+                ),
+                const SizedBox(height: 20.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    // Player out
+                    Column(
+                      children: store.transfers
+                          .map(
+                            (transfer) => Padding(
+                              padding: EdgeInsets.only(bottom: 12.0),
+                              child: Text(
+                                transfer.playerOut.displayName,
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    // Icon
+                    Column(
+                      children: store.transfers
+                          .map(
+                            (transfer) => Padding(
+                              padding: EdgeInsets.only(bottom: 12.0),
+                              child: Icon(
+                                Icons.compare_arrows,
+                                color: ThemeColors.red,
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    // Player in
+                    Column(
+                      children: store.transfers
+                          .map(
+                            (transfer) => Padding(
+                              padding: EdgeInsets.only(bottom: 12.0),
+                              child: Text(
+                                transfer.playerIn.displayName,
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
+  }
+}
+
 class _SubstitutePlayerButton extends StatelessWidget {
   const _SubstitutePlayerButton({
     Key? key,
@@ -313,7 +402,7 @@ class _SubstitutePlayerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = Provider.of<SelectPlayerStore>(context);
-    // final teamStore = Provider.of<SelectedTeamStore>(context);
+    final teamStore = Provider.of<SelectedTeamStore>(context);
 
     return IconButton(
       onPressed: () async {
@@ -341,7 +430,7 @@ class _SubstitutePlayerButton extends StatelessWidget {
           },
         );
         if (addedPlayer != null) {
-          // TODO: Handle Transfer
+          teamStore.transferPlayer(addedPlayer, player);
         }
       },
       icon: const Icon(

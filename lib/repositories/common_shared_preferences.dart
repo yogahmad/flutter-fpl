@@ -60,6 +60,10 @@ class CommonSharedPreferences {
     var result2 = await CommonSharedPreferences.setInt(keyExpire, time);
     return result1 & result2;
   }
+
+  static Future<bool> removeKey(String key) async {
+    return await _instance!.remove(key);
+  }
 }
 
 class SharedPreferencesKeyList {
@@ -76,4 +80,7 @@ class SharedPreferencesKeyList {
   static String gameweeksData = "LIST_JSON-GAMEWEEKS_DATA";
   static String gameweeksDataExpireTime =
       "LIST_JSON-GAMEWEEKS_DATA_EXPIRE_TEAM";
+
+  static String gameweekTransferData(int gameweek) =>
+      "LIST_JSON-GAMEWEEK_TRANSFER_DATA-$gameweek";
 }

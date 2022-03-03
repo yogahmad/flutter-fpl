@@ -134,6 +134,21 @@ mixin _$SelectedTeamStore on _SelectedTeamStore, Store {
     });
   }
 
+  final _$transfersAtom = Atom(name: '_SelectedTeamStore.transfers');
+
+  @override
+  ObservableList<Transfer> get transfers {
+    _$transfersAtom.reportRead();
+    return super.transfers;
+  }
+
+  @override
+  set transfers(ObservableList<Transfer> value) {
+    _$transfersAtom.reportWrite(value, super.transfers, () {
+      super.transfers = value;
+    });
+  }
+
   final _$substitutedPlayerAtom =
       Atom(name: '_SelectedTeamStore.substitutedPlayer');
 
@@ -276,6 +291,7 @@ midfielders: ${midfielders},
 forwards: ${forwards},
 starters: ${starters},
 bench: ${bench},
+transfers: ${transfers},
 substitutedPlayer: ${substitutedPlayer},
 isValidAsASubstitution: ${isValidAsASubstitution},
 currentGameweek: ${currentGameweek},

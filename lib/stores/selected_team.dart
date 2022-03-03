@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:fpl/configs/positions.dart';
 import 'package:fpl/models/player.dart';
+import 'package:fpl/models/transfer.dart';
 import 'package:fpl/repositories/common_shared_preferences.dart';
 import 'package:mobx/mobx.dart';
 
@@ -24,6 +25,8 @@ abstract class _SelectedTeamStore with Store {
   ObservableList<Player> starters = ObservableList<Player>();
   @observable
   ObservableList<Player> bench = ObservableList<Player>();
+  @observable
+  ObservableList<Transfer> transfers = ObservableList<Transfer>();
 
   @observable
   Player? substitutedPlayer;
@@ -242,6 +245,8 @@ abstract class _SelectedTeamStore with Store {
 
     for (var gameweek = 1; gameweek <= 38; gameweek++) {
       updateToDatabase(allStarters, allBench, gameweek);
+      CommonSharedPreferences.removeKey(
+          SharedPreferencesKeyList.gameweekTransferData(gameweek));
     }
   }
 
@@ -258,8 +263,11 @@ abstract class _SelectedTeamStore with Store {
       return;
     }
     // swap
-    bool isFirstPlayerStarter = starters.contains(substitutedPlayer);
-    bool isSecondPlayerStarter = starters.contains(player);
+    bool isFirstPlayerStarter = starters
+        .where((player) => player.fplId == substitutedPlayer!.fplId)
+        .isNotEmpty;
+    bool isSecondPlayerStarter =
+        starters.where((p) => p.fplId == player.fplId).isNotEmpty;
 
     if (isFirstPlayerStarter == isSecondPlayerStarter) {
       substitutedPlayer = player;
@@ -299,8 +307,9 @@ abstract class _SelectedTeamStore with Store {
       }
       return;
     }
-    bool isStarter = starters.contains(substitutedPlayer);
-
+    bool isStarter = starters
+        .where((player) => player.fplId == substitutedPlayer!.fplId)
+        .isNotEmpty;
     if (isStarter) {
       for (Player player in starters) {
         isValidAsASubstitution[player.fplId] = true;
@@ -428,6 +437,8 @@ abstract class _SelectedTeamStore with Store {
         SharedPreferencesKeyList.starterGameweekData(currentGameweek));
     var benchJson = CommonSharedPreferences.getStringList(
         SharedPreferencesKeyList.benchGameweekData(currentGameweek));
+    var transfersJson = CommonSharedPreferences.getStringList(
+        SharedPreferencesKeyList.gameweekTransferData(currentGameweek));
 
     if (startersJson == null || benchJson == null) return false;
 
@@ -439,7 +450,58 @@ abstract class _SelectedTeamStore with Store {
     starters = ObservableList.of(allStarters);
     bench = ObservableList.of(allBench);
 
+    if (transfersJson != null) {
+      var allTransfers = transfersJson
+          .map((data) => Transfer.fromJson(json.decode(data)))
+          .toList();
+      transfers = ObservableList.of(allTransfers);
+    } else {
+      transfers = ObservableList.of([]);
+    }
+
     verifySubstitutionValidity();
     return true;
+  }
+
+  void transferPlayer(Player playerIn, Player playerOut) {
+    int gameweek = currentGameweek;
+    assert(playerIn.position == playerOut.position);
+
+    if (starters.where((player) => player.fplId == playerIn.fplId).isNotEmpty ||
+        bench.where((player) => player.fplId == playerIn.fplId).isNotEmpty) {
+      return;
+    }
+
+    List<Player> allStarters =
+        starters.where((player) => player != playerOut).toList();
+    List<Player> allBench =
+        bench.where((player) => player != playerOut).toList();
+
+    if (allStarters.length < 11) {
+      allStarters.add(playerIn);
+    } else {
+      allBench.add(playerIn);
+    }
+
+    substitutedPlayer = null;
+
+    starters = ObservableList.of(allStarters);
+    bench = ObservableList.of(allBench);
+    verifySubstitutionValidity();
+
+    for (var gw = gameweek; gw <= 38; gw++) {
+      updateToDatabase(allStarters, allBench, gw);
+    }
+    for (var gw = gameweek + 1; gw <= 38; gw++) {
+      CommonSharedPreferences.removeKey(
+          SharedPreferencesKeyList.gameweekTransferData(gw));
+    }
+    Transfer transfer = Transfer(playerIn, playerOut, gameweek);
+    transfers.add(transfer);
+
+    CommonSharedPreferences.setStringList(
+      SharedPreferencesKeyList.gameweekTransferData(gameweek),
+      transfers.map((transfer) => json.encode(transfer.toJson())).toList(),
+    );
   }
 }

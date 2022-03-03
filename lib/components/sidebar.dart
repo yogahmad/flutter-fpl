@@ -33,7 +33,7 @@ class Sidebar extends StatelessWidget {
             margin: const EdgeInsets.symmetric(
               horizontal: 15.0,
             ),
-            child: Text(
+            child: const Text(
               "FPL",
               style: TextStyle(
                 fontWeight: FontWeight.w600,
@@ -106,12 +106,12 @@ class _SidebarItem extends StatelessWidget {
       child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           decoration: itemName == activeItem
-              ? BoxDecoration(
+              ? const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.centerLeft,
                     end: Alignment.center,
                     colors: [
-                      const Color(0x00ACA9FF),
+                      Color(0x00ACA9FF),
                       ThemeColors.white,
                     ],
                   ),

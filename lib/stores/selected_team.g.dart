@@ -202,11 +202,11 @@ mixin _$SelectedTeamStore on _SelectedTeamStore, Store {
       ActionController(name: '_SelectedTeamStore');
 
   @override
-  void loadStarterBench() {
+  void loadStarterBench({bool isReset = false}) {
     final _$actionInfo = _$_SelectedTeamStoreActionController.startAction(
         name: '_SelectedTeamStore.loadStarterBench');
     try {
-      return super.loadStarterBench();
+      return super.loadStarterBench(isReset: isReset);
     } finally {
       _$_SelectedTeamStoreActionController.endAction(_$actionInfo);
     }
@@ -257,7 +257,7 @@ mixin _$SelectedTeamStore on _SelectedTeamStore, Store {
   }
 
   @override
-  void getStarterBenchFromDatabase() {
+  bool getStarterBenchFromDatabase() {
     final _$actionInfo = _$_SelectedTeamStoreActionController.startAction(
         name: '_SelectedTeamStore.getStarterBenchFromDatabase');
     try {

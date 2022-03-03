@@ -51,7 +51,7 @@ class ComparisonPage extends StatelessWidget {
                     child: Center(
                       child: IconButton(
                         padding: EdgeInsets.zero,
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.add_box,
                           size: 64.0,
                           color: ThemeColors.main,

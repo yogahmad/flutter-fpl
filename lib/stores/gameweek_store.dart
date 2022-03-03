@@ -46,19 +46,20 @@ abstract class _GameweekStore with Store {
     );
   }
 
-  List<Tuple3<String, Color, Color>> getFixture(
+  List<Tuple4<String, Color, Color, bool>> getFixture(
       int teamId, int gameweekNumber) {
-    List<Tuple3<String, Color, Color>> ret = <Tuple3<String, Color, Color>>[];
+    List<Tuple4<String, Color, Color, bool>> ret =
+        <Tuple4<String, Color, Color, bool>>[];
 
     for (var gameweek in gameweeks.data!) {
       if (gameweek.number == gameweekNumber) {
         for (var match in gameweek.matches) {
           if (match.awayTeamFplId == teamId) {
-            ret.add(Tuple3(match.homeTeamName, Color(match.homeAttackColor),
-                Color(match.homeDefenceColor)));
+            ret.add(Tuple4(match.homeTeamName, Color(match.homeAttackColor),
+                Color(match.homeDefenceColor), false));
           } else if (match.homeTeamFplId == teamId) {
-            ret.add(Tuple3(match.awayTeamName, Color(match.awayAttackColor),
-                Color(match.awayDefenceColor)));
+            ret.add(Tuple4(match.awayTeamName, Color(match.awayAttackColor),
+                Color(match.awayDefenceColor), true));
           }
         }
       }

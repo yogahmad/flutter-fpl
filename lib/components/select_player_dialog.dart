@@ -42,7 +42,7 @@ class SelectPlayerDialog extends AlertDialog {
                     color: ThemeColors.lightOrange,
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Icon(
                       Icons.close,
                       color: ThemeColors.red,
@@ -77,7 +77,7 @@ class _SelectPlayerDialogContent extends StatelessWidget {
         builder: (_) {
           if (store.players.status == ResponseStatus.loading ||
               store.teams.status == ResponseStatus.loading) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(
                 color: ThemeColors.main,
               ),
@@ -174,7 +174,7 @@ class _PlayerFilter extends StatelessWidget {
                 style: const TextStyle(fontSize: 14.0),
                 decoration: InputDecoration(
                   hintText: "Search a Player...",
-                  prefixIcon: Icon(
+                  prefixIcon: const Icon(
                     Icons.search,
                     size: 16.0,
                     color: ThemeColors.main,
@@ -414,7 +414,7 @@ class _SelectPlayerButton extends StatelessWidget {
         onTap: () {
           Navigator.pop(context, player);
         },
-        child: Icon(
+        child: const Icon(
           Icons.arrow_forward_ios,
           size: 24.0,
           color: ThemeColors.main,

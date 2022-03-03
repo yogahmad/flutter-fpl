@@ -51,11 +51,12 @@ class CommonSharedPreferences {
     String key,
     String keyExpire,
     List<String> value, [
-    int expireDay = 1,
+    int expireMinute = 30,
   ]) async {
     var result1 = await CommonSharedPreferences.setStringList(key, value);
-    var time =
-        DateTime.now().add(Duration(days: expireDay)).microsecondsSinceEpoch;
+    var time = DateTime.now()
+        .add(Duration(minutes: expireMinute))
+        .microsecondsSinceEpoch;
     var result2 = await CommonSharedPreferences.setInt(keyExpire, time);
     return result1 & result2;
   }

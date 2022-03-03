@@ -339,12 +339,12 @@ class _AddPlayerButton extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Icon(
                     Icons.add,
                     color: ThemeColors.white,
                   ),
-                  const SizedBox(width: 10.0),
+                  SizedBox(width: 10.0),
                   Text(
                     "Add a Player",
                     style: TextStyle(
@@ -470,7 +470,7 @@ class _SubstitutePlayerButton extends StatelessWidget {
             teamStore.addPlayer(addedPlayer, addedPlayer.position);
           }
         },
-        child: Icon(
+        child: const Icon(
           Icons.compare_arrows,
           size: 36.0,
           color: ThemeColors.main,

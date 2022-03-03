@@ -212,12 +212,15 @@ abstract class _SelectedTeamStore with Store {
         break;
     }
     if (isFull) {
-      loadStarterBench();
+      loadStarterBench(isReset: true);
     }
   }
 
   @action
-  void loadStarterBench() {
+  void loadStarterBench({bool isReset = false}) {
+    bool fromDatabase = getStarterBenchFromDatabase();
+    if (fromDatabase && !isReset) return;
+
     var allStarters = <Player>[];
     var allBench = <Player>[];
     allStarters.addAll(goalkeepers.sublist(0, 1));
@@ -386,6 +389,7 @@ abstract class _SelectedTeamStore with Store {
   void goToNextGameweek() {
     if (currentGameweek == 38) return;
     currentGameweek = currentGameweek + 1;
+    substitutedPlayer = null;
     getStarterBenchFromDatabase();
   }
 
@@ -393,6 +397,7 @@ abstract class _SelectedTeamStore with Store {
   void goToPrevGameweek() {
     if (currentGameweek == 1) return;
     currentGameweek = currentGameweek - 1;
+    substitutedPlayer = null;
     getStarterBenchFromDatabase();
   }
 
@@ -418,19 +423,23 @@ abstract class _SelectedTeamStore with Store {
   }
 
   @action
-  void getStarterBenchFromDatabase() {
+  bool getStarterBenchFromDatabase() {
     var startersJson = CommonSharedPreferences.getStringList(
         SharedPreferencesKeyList.starterGameweekData(currentGameweek));
     var benchJson = CommonSharedPreferences.getStringList(
         SharedPreferencesKeyList.benchGameweekData(currentGameweek));
 
-    var allStarters = startersJson!
-        .map((data) => Player.fromJson(json.decode(data)))
-        .toList();
+    if (startersJson == null || benchJson == null) return false;
+
+    var allStarters =
+        startersJson.map((data) => Player.fromJson(json.decode(data))).toList();
     var allBench =
-        benchJson!.map((data) => Player.fromJson(json.decode(data))).toList();
+        benchJson.map((data) => Player.fromJson(json.decode(data))).toList();
 
     starters = ObservableList.of(allStarters);
     bench = ObservableList.of(allBench);
+
+    verifySubstitutionValidity();
+    return true;
   }
 }

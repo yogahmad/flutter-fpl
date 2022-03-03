@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.nunitoTextTheme(
             Theme.of(context).textTheme,
           ),
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: ThemeColors.inactiveIcon,
             size: 24.0,
           ),

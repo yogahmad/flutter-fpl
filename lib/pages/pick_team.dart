@@ -276,7 +276,7 @@ class _TableItem extends TableRow {
               gameweek: gameweek,
               player: player,
             ),
-            Text("Predicted Points"),
+            const Text("Predicted Points"),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -313,7 +313,7 @@ class _SubstitutePlayerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = Provider.of<SelectPlayerStore>(context);
-    final teamStore = Provider.of<SelectedTeamStore>(context);
+    // final teamStore = Provider.of<SelectedTeamStore>(context);
 
     return IconButton(
       onPressed: () async {
@@ -340,7 +340,9 @@ class _SubstitutePlayerButton extends StatelessWidget {
             );
           },
         );
-        if (addedPlayer != null) {}
+        if (addedPlayer != null) {
+          // TODO: Handle Transfer
+        }
       },
       icon: const Icon(
         Icons.compare_arrows,
@@ -383,8 +385,8 @@ class _FixtureWidget extends StatelessWidget {
                       : data.item3,
                   child: Center(
                     child: Text(
-                      data.item1,
-                      style: TextStyle(fontSize: 16.0),
+                      data.item4 ? data.item1 : data.item1.toLowerCase(),
+                      style: const TextStyle(fontSize: 16.0),
                     ),
                   ),
                 ),
